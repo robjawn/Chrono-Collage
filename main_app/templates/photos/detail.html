@@ -9,11 +9,13 @@
             <hr width="100%"/>
             <h2 class="fs-4 fw-bold">{{photo_context.location}}</h2>
             <p class="text-left">{{photo_context.description}}</p>
+            {% if user.is_authenticated %}
             <a href="{% url 'photos_update' photo.id %}"class="link">Edit Photo and Title</a>
             <br>
             <a href="{% url 'context_update' photo_context.id %}" class="link">Edit Photo Information</a>
             <br>
             <a href="{% url 'photos_delete' photo.id %}">Delete This Page</a>
+            {% endif %}
         </div>
     </div>
 </div>

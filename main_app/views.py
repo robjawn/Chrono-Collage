@@ -54,8 +54,9 @@ def create_photo(request):
             photo_context = photo_context_form.save()
             photo = photo_form.save(commit=False)
             photo.photo_context = photo_context
+            photo.user = request.user
             photo.save()
-            return redirect('index')
+            return redirect('detail', photo_id=photo.id)
     else:
         photo_form = PhotoForm()
         photo_context_form = PhotoContextForm()
@@ -65,7 +66,9 @@ def create_photo(request):
 def photos_delete(request, photo_id):
     photo = get_object_or_404(Photo, id=photo_id)
     if request.method == 'POST':
+        photo_context = photo.photo_context
         photo.delete()
+        photo_context.delete()
         return redirect('index')
     return render(request, 'main_app/photo_confirm_delete.html', {'photo': photo})
 
