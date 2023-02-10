@@ -11,4 +11,4 @@ def about(request):
   return render(request, 'about.html')
 
 def photos_index(request):
-  return render(request, 'photos/index.html', {'photos': photos })
+  return render(request, 'photos/index.html')
