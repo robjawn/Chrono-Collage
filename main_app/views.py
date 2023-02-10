@@ -72,7 +72,11 @@ def photos_delete(request, photo_id):
 class PhotoUpdate(UpdateView):
   model = Photo
   fields =['title', 'url']
+  template_name = 'main_app/photo_update.html'
+  success_url = reverse_lazy('index')
 
 class PhotoContextUpdate(UpdateView):
   model = PhotoContext
   fields = ['date','description','location','people']
+  template_name = 'main_app/context_update.html'
+  success_url = reverse_lazy('index')
