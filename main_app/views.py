@@ -1,6 +1,11 @@
 from django.shortcuts import render
+from django import forms
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Photo, PhotoContext
+from django.views.generic.edit import CreateView
+from .forms import PhotoForm, PhotoContextForm
+
 
 # class Photo: 
 #   def __init__(self, title, date, description, url):
@@ -32,3 +37,7 @@ def photos_detail(request, photo_id):
   photo = Photo.objects.get(id=photo_id)
   photo_context = PhotoContext.objects.get(id=photo_id)
   return render(request, 'photos/detail.html', {'photo': photo, 'photo_context': photo_context })
+
+class PhotoCreate(CreateView):
+  model = Photo
+  fields = ['title', 'url']
