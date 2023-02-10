@@ -3,7 +3,8 @@
 <form action="" method="post">
     {% csrf_token %}
     <table>
-      {{ form.as_table }}
+    {{ photo_form.as_p }}
+    {{ photo_context_form.as_p }}
     </table>
     <input type="submit" value="Submit!" class="btn" />
   </form>

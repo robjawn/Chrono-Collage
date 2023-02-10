@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django import forms
 from django.urls import reverse_lazy
 from django.http import HttpResponse
@@ -38,6 +38,25 @@ def photos_detail(request, photo_id):
   photo_context = PhotoContext.objects.get(id=photo_id)
   return render(request, 'photos/detail.html', {'photo': photo, 'photo_context': photo_context })
 
-class PhotoCreate(CreateView):
-  model = Photo
-  fields = ['title', 'url']
+# class PhotoCreate(CreateView):
+#   model = Photo
+#   fields = ['title', 'url']
+
+# class PhotoContextCreate(CreateView):
+#   model = PhotoContext
+#   fields = '__all__'
+
+def create_photo(request):
+    if request.method == 'POST':
+        photo_form = PhotoForm(request.POST)
+        photo_context_form = PhotoContextForm(request.POST)
+        if photo_form.is_valid() and photo_context_form.is_valid():
+            photo_context = photo_context_form.save()
+            photo = photo_form.save(commit=False)
+            photo.photo_context = photo_context
+            photo.save()
+            return redirect('index')
+    else:
+        photo_form = PhotoForm()
+        photo_context_form = PhotoContextForm()
+    return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
