@@ -20,13 +20,13 @@
               <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                   <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Photo Index</a>
+                    <a class="nav-link" href="{% url 'index' %}">Photo Index</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Lorem Ipsum</a>
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
