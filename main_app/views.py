@@ -28,4 +28,7 @@ def photos_index(request):
   photo_context = PhotoContext.objects.all()
   return render(request, 'photos/index.html', {'photos': photos, 'photo_context': photo_context})
 
-
+def photos_detail(request, photo_id):
+  photo = Photo.objects.get(id=photo_id)
+  photo_context = PhotoContext.objects.get(id=photo_id)
+  return render(request, 'photos/detail.html', {'photo': photo, 'photo_context': photo_context })
