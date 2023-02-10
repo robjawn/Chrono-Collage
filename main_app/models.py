@@ -4,7 +4,9 @@ from django.db import models
 
 class PhotoContext(models.Model):
     date = models.DateField()
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=500, blank=True, default='')
+    location = models.CharField(max_length=200, blank=True, default='')
+    people = models.CharField(max_length=200, blank=True, default='')
 
 class Photo(models.Model):
     title = models.CharField(max_length=200)
