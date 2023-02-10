@@ -26,3 +26,5 @@ def about(request):
 
 def photos_index(request):
   return render(request, 'photos/index.html', {'photos': photos})
+
+
