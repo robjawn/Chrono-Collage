@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Photo, PhotoContext
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import PhotoForm, PhotoContextForm
 
 
@@ -60,3 +60,19 @@ def create_photo(request):
         photo_form = PhotoForm()
         photo_context_form = PhotoContextForm()
     return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
+  
+
+def photos_delete(request, photo_id):
+    photo = get_object_or_404(Photo, id=photo_id)
+    if request.method == 'POST':
+        photo.delete()
+        return redirect('index')
+    return render(request, 'main_app/photo_confirm_delete.html', {'photo': photo})
+
+class PhotoUpdate(UpdateView):
+  model = Photo
+  fields =['title', 'url']
+
+class PhotoContextUpdate(UpdateView):
+  model = PhotoContext
+  fields = ['date','description','location','people']

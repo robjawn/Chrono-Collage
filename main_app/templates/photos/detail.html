@@ -9,6 +9,11 @@
             <hr width="100%"/>
             <h2 class="fs-4 fw-bold">{{photo_context.location}}</h2>
             <p class="text-left">{{photo_context.description}}</p>
+            <a class="link">Edit Photo and Title</a>
+            <br>
+            <a class="link">Edit Photo Information</a>
+            <br>
+            <a href="{% url 'photos_delete' photo.id %}">Delete This Page</a>
         </div>
     </div>
 </div>
