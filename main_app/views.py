@@ -85,10 +85,12 @@ class PhotoUpdate(LoginRequiredMixin, UpdateView):
   model = Photo
   fields =['title', 'url']
   template_name = 'main_app/photo_update.html'
-  success_url = reverse_lazy('index')
+  def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'photo_id': self.object.id})
 
 class PhotoContextUpdate(LoginRequiredMixin, UpdateView):
   model = PhotoContext
   fields = ['date','description','location','people']
   template_name = 'main_app/context_update.html'
-  success_url = reverse_lazy('index')
+  def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'photo_id': self.object.id})
