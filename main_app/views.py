@@ -5,6 +5,10 @@ from django.http import HttpResponse
 from .models import Photo, PhotoContext
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import PhotoForm, PhotoContextForm
+from django.contrib.auth import login 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # class Photo: 
@@ -21,6 +25,19 @@ from .forms import PhotoForm, PhotoContextForm
 #   Photo('Salvador Dali Walking His Anteater', 1969, 'Surrealist painter Salvador Dali takes his pet for a stroll in Paris.', 'http://cdn8.openculture.com/wp-content/uploads/2015/05/dali-anteater1.jpg')
 # ]
 
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('index')
+    else:
+      error_message = 'Invalid Registration - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
 
 def home(request):
   return render(request, 'home.html')
@@ -38,14 +55,7 @@ def photos_detail(request, photo_id):
   photo_context = PhotoContext.objects.get(id=photo_id)
   return render(request, 'photos/detail.html', {'photo': photo, 'photo_context': photo_context })
 
-# class PhotoCreate(CreateView):
-#   model = Photo
-#   fields = ['title', 'url']
-
-# class PhotoContextCreate(CreateView):
-#   model = PhotoContext
-#   fields = '__all__'
-
+@login_required
 def create_photo(request):
     if request.method == 'POST':
         photo_form = PhotoForm(request.POST)
@@ -62,7 +72,7 @@ def create_photo(request):
         photo_context_form = PhotoContextForm()
     return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
   
-
+@login_required
 def photos_delete(request, photo_id):
     photo = get_object_or_404(Photo, id=photo_id)
     if request.method == 'POST':
@@ -71,14 +81,13 @@ def photos_delete(request, photo_id):
         photo_context.delete()
         return redirect('index')
     return render(request, 'main_app/photo_confirm_delete.html', {'photo': photo})
-
-class PhotoUpdate(UpdateView):
+class PhotoUpdate(LoginRequiredMixin, UpdateView):
   model = Photo
   fields =['title', 'url']
   template_name = 'main_app/photo_update.html'
   success_url = reverse_lazy('index')
 
-class PhotoContextUpdate(UpdateView):
+class PhotoContextUpdate(LoginRequiredMixin, UpdateView):
   model = PhotoContext
   fields = ['date','description','location','people']
   template_name = 'main_app/context_update.html'
