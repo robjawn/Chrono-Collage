@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from .models import Photo, PhotoContext
+from .models import Photo, PhotoContext, Profile
+from .forms import UpdateUserForm, UpdateProfileForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # class Photo: 
@@ -26,7 +29,20 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 @login_required
 def profile(request):
-  return render(request, 'users/profile.html')
+  if request.method == 'POST':
+    user_form = UpdateUserForm(request.POST, instance=request.user)
+    profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+    if user_form.is_valid() and profile_form.is_valid():
+      user_form.save()
+      profile_form.save()
+      messages.success(request, 'Your profile has been updated successfully')
+      return redirect(to='users-profile')
+  else:
+    user_form = UpdateUserForm(instance=request.user)
+    profile_form = UpdateProfileForm(instance=request.user.profile)
+
+  return render(request, 'profiles/profile.html', {'user_form': user_form, 'profile_form': profile_form })
 
 def signup(request):
   error_message = ''
@@ -41,6 +57,11 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'users/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('users-home')
 
 def home(request):
   return render(request, 'home.html')
@@ -84,6 +105,7 @@ def photos_delete(request, photo_id):
         photo_context.delete()
         return redirect('index')
     return render(request, 'main_app/photo_confirm_delete.html', {'photo': photo})
+
 class PhotoUpdate(LoginRequiredMixin, UpdateView):
   model = Photo
   fields =['title', 'url']
