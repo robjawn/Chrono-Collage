@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Photo, PhotoContext
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import PhotoForm, PhotoContextForm
 from django.contrib.auth import login 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -24,6 +23,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #   Photo('Earthrise', 1968, 'Photo of Earth taken from lunar orbit by astronaut William Anders.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1280px-NASA-Apollo8-Dec24-Earthrise.jpg'),
 #   Photo('Salvador Dali Walking His Anteater', 1969, 'Surrealist painter Salvador Dali takes his pet for a stroll in Paris.', 'http://cdn8.openculture.com/wp-content/uploads/2015/05/dali-anteater1.jpg')
 # ]
+
+@login_required
+def profile(request):
+  return render(request, 'users/profile.html')
 
 def signup(request):
   error_message = ''

@@ -10,5 +10,6 @@ urlpatterns = [
      path('photos/<int:photo_id>/delete/', views.photos_delete, name='photos_delete'),
      path('photos/<int:pk>/update/', views.PhotoUpdate.as_view(), name='photos_update'),
      path('photoscontext/<int:pk>/update/', views.PhotoContextUpdate.as_view(), name='context_update'),
-     path('accounts/signup/', views.signup, name='signup')
+     path('accounts/signup/', views.signup, name='signup'),
+     path('profile/', views.profile, name='users-profile')
 ]
