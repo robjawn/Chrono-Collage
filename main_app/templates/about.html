@@ -1,17 +1,42 @@
 {% extends 'base.html' %} {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Chrono Collage</title>
-  </head>
-  <body>
-    <h1>About the App</h1>
-    <hr />
-  </body>
-</html>
-
+<div class="p-4 p-lg-5 bg-light rounded-3 text-center"
+        style="
+        margin-top: 3rem;
+        background-position: center;
+        background-size: cover;
+        background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0.2) 100%),
+        url('https://www.unjourdeplusaparis.com/wp-content/uploads/2015/05/premiere-photo-homme-paris-1024x736.jpg');
+        "
+        >
+  <div class="container px-4 px-lg-5 h-100">
+    <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+      <div class="col-lg-8 align-self-end">
+        <h1 class="text-white fw-bold">About The App</h1>
+        <hr style="background-color: darkgoldenrod;
+        height: 0.2rem;
+        margin: 1.5rem auto;">
+      </div>
+      <div class="col-lg-8 align-self-baseline">
+        <p class="text-white mb-5 mt-3 fw-bold">
+          Chrono Collage is an app where anyone can view and share photographs of historical significance. Use the navigation bar to view an index of user-submitted images and play games testing your knowledge of history!
+        </p>
+        <hr style="background-color: darkgoldenrod;
+        height: 0.2rem;
+        margin: 1.5rem auto;">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <h2 class="text-white fw-bold mb-5">Built With</h2>
+    <div class="col">
+      <img src="https://static.djangoproject.com/img/logos/django-logo-negative.png" width="140" height="auto">
+    </div>
+    <div class="col">
+      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="140" height="auto">
+    </div>
+    <div class="col">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/512px-Bootstrap_logo.svg.png?20210507000024" width="140" height="auto">
+    </div>
+</div>
 {% endblock %}
