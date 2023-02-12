@@ -3,7 +3,7 @@ from django import forms
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Photo, PhotoContext, Profile
-from .forms import UpdateUserForm, UpdateProfileForm
+from .forms import UpdateUserForm, UpdateProfileForm, PhotoForm, PhotoContextForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login 
 from django.contrib.auth.models import User
@@ -103,10 +103,14 @@ def create_photo(request):
             photo.user = request.user
             photo.save()
             return redirect('detail', photo_id=photo.id)
+        else:
+            photo_form = PhotoForm()
+            photo_context_form = PhotoContextForm()
+            return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
     else:
         photo_form = PhotoForm()
         photo_context_form = PhotoContextForm()
-    return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
+        return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
   
 @login_required
 def photos_delete(request, photo_id):

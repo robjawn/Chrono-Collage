@@ -1,13 +1,20 @@
-<h1>{{ profile.user.username }}'s Profile</h1>
+{% extends 'base.html' %} {% block content %}
 
-<p>{{ profile.bio }}</p>
 
-<h2>Photos</h2>
+<div class="container px-lg-5" style="margin-top: 3rem;">
+    <h1>{{ profile.user.username }}'s Profile</h1>
 
-<ul>
-{% for photo in photos %}
-    <li>
-        <a href="{{ photo.url }}">{{ photo.title }}</a>
-    </li>
-{% endfor %}
-</ul>
+    <p>{{ profile.bio }}</p>
+
+    <h2>Photos</h2>
+
+    <ul>
+    {% for photo in photos %}
+        <li>
+            <a href="{% url 'detail' photo.id %}">{{ photo.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

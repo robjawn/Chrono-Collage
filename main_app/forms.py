@@ -2,15 +2,15 @@ from django import forms
 from .models import Photo, PhotoContext, Profile
 from django.contrib.auth.models import User
 
-# class PhotoContextForm(forms.ModelForm):
-#     class Meta:
-#         model = PhotoContext
-#         fields = '__all__'
+class PhotoContextForm(forms.ModelForm):
+    class Meta:
+        model = PhotoContext
+        fields = '__all__'
 
-# class PhotoForm(forms.ModelForm):
-#     class Meta:
-#         model = Photo
-#         fields = ['title', 'url']
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['title', 'url']
 
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=True)

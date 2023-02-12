@@ -17,7 +17,7 @@
             <a href="{% url 'photos_delete' photo.id %}">Delete This Page</a>
             {% endif %}
             <hr width="100%"/>
-            <p class="text-secondary-left">Shared by <span class="fw-bold">{{photo.user}}</span></p>
+            <p class="text-secondary-left">Shared by <a href="{% url 'profile_detail' photo.user.username%}" class="fw-bold">{{photo.user}}</a></p>
         </div>
     </div>
 </div>
