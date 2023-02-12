@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 #         fields = ['title', 'url']
 
 class UpdateUserForm(forms.ModelForm):
-    username = forms.Charfield(max_length=100, required=True)
+    username = forms.CharField(max_length=100, required=True)
     class Meta:
         model = User
         fields = ['username']

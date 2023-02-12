@@ -2,7 +2,11 @@
 
 <div class="container mt-auto px-lg-5">
     <div class="p-4 p-lg-5 bg-light rounded-3 text-center" style="margin-top: 3rem;">
+        {% if user.is_authenticated %}
+        <h1>Welcome back, {{user.username}}!</h1>
+        {% else %}
         <h1>Welcome to Chrono Collage!</h1>
+        {% endif %}
         <hr />
         <img src="https://i.imgur.com/2682yBa.png" height="350" width="auto">
         <hr />

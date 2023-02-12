@@ -32,6 +32,9 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'photos_create' %}">Add a Photo</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users-profile' %}">Edit Account</a>
+                  </li>
                   <button type="button" style="float:right;" class="btn btn-outline-secondary"><a style="text-decoration:none;color:inherit;" href="{% url 'logout' %}">Log Out</a></button>
                   {% else %}
                   <button type="button" style="float:right;" class="btn btn-outline-secondary"><a style="text-decoration:none;color:inherit;" href="{% url 'signup' %}">Register</a></button>

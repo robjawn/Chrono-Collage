@@ -11,5 +11,6 @@ urlpatterns = [
      path('photos/<int:pk>/update/', views.PhotoUpdate.as_view(), name='photos_update'),
      path('photoscontext/<int:pk>/update/', views.PhotoContextUpdate.as_view(), name='context_update'),
      path('accounts/signup/', views.signup, name='signup'),
-     path('profile/', views.profile, name='users-profile')
+     path('profile/', views.profile, name='users-profile'),
+     path('profile/password-change/', views.ChangePasswordView.as_view(), name='password_change')
 ]
