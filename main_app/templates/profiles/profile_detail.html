@@ -1,0 +1,13 @@
+<h1>{{ profile.user.username }}'s Profile</h1>
+
+<p>{{ profile.bio }}</p>
+
+<h2>Photos</h2>
+
+<ul>
+{% for photo in photos %}
+    <li>
+        <a href="{{ photo.url }}">{{ photo.title }}</a>
+    </li>
+{% endfor %}
+</ul>

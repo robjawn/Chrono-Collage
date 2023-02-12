@@ -6,6 +6,7 @@ from .models import Photo, PhotoContext, Profile
 from .forms import UpdateUserForm, UpdateProfileForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login 
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -63,6 +64,16 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'registration/password_change_form.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-profile')
+
+def profile_detail(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    photos = Photo.objects.filter(user=user)
+    context = {
+        'profile': profile,
+        'photos': photos,
+    }
+    return render(request, 'profiles/profile_detail.html', context)
 
 def home(request):
   return render(request, 'home.html')
