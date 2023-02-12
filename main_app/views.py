@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 
 # class Photo: 
@@ -37,7 +38,7 @@ def profile(request):
       user_form.save()
       profile_form.save()
       messages.success(request, 'Your profile has been updated successfully')
-      return redirect(to='home')
+      return redirect('home')
   else:
     user_form = UpdateUserForm(instance=request.user)
     profile_form = UpdateProfileForm(instance=request.user.profile)
@@ -61,7 +62,7 @@ def signup(request):
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'registration/password_change_form.html'
     success_message = "Successfully Changed Your Password"
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('users-profile')
 
 def home(request):
   return render(request, 'home.html')
