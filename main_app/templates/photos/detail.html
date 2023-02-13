@@ -1,22 +1,23 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="container px-lg-5" style="margin-top: 3rem;">
-    <div class="col-lg-6 col-xxl-4 mb-5">
-        <div class="card-body">
+<div class="container px-lg-5 bg-light p-3" style="margin-top: 3rem;">
+    <div class="col mb-5">
+        <div class="card-body d-flex flex-column justify-content-end">
             <h2 class="fs-4 fw-bold">{{ photo.title}} - {{photo_context.date}}</h2>
             <hr width="100%"/>
-            <img src={{photo.url}} class="rounded mx-auto d-block">
+            <img src={{photo.url}} class="img-fluid rounded mx-auto d-block">
             <hr width="100%"/>
             <h2 class="fs-4 fw-bold">{{photo_context.location}}</h2>
             <p class="text-left">{{photo_context.description}}</p>
+            <hr width="100%"/>
             {% if user.is_authenticated %}
             <a href="{% url 'photos_update' photo.id %}"class="link">Edit Photo and Title</a>
             <br>
             <a href="{% url 'context_update' photo_context.id %}" class="link">Edit Photo Information</a>
             <br>
             <a href="{% url 'photos_delete' photo.id %}">Delete This Page</a>
-            {% endif %}
             <hr width="100%"/>
+            {% endif %}
             <p class="text-secondary-left">Shared by <a href="{% url 'profile_detail' photo.user.username%}" class="fw-bold">{{photo.user}}</a></p>
         </div>
     </div>
