@@ -13,21 +13,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+import uuid
+import boto3
 
-
-# class Photo: 
-#   def __init__(self, title, date, description, url):
-#     self.title = title
-#     self.date = date
-#     self.description = description
-#     self.url = url
-
-# photos = [
-#   Photo('Hindenburg Disaster', 1937, 'The Hindenburg disaster was an airship accident that occurred on May 6, 1937, in Manchester Township, New Jersey, United States.', 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Hindenburg_disaster.jpg'),
-#   Photo('Migrant Mother', 1936, 'A photo of Florence Owens Thompson, a mother raising her children amidst the Great Depression.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Lange-MigrantMother02.jpg/1024px-Lange-MigrantMother02.jpg'),
-#   Photo('Earthrise', 1968, 'Photo of Earth taken from lunar orbit by astronaut William Anders.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1280px-NASA-Apollo8-Dec24-Earthrise.jpg'),
-#   Photo('Salvador Dali Walking His Anteater', 1969, 'Surrealist painter Salvador Dali takes his pet for a stroll in Paris.', 'http://cdn8.openculture.com/wp-content/uploads/2015/05/dali-anteater1.jpg')
-# ]
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
+BUCKET = 'chronocollage'
 
 @login_required
 def profile(request):
@@ -94,19 +84,32 @@ def photos_detail(request, photo_id):
 @login_required
 def create_photo(request):
     if request.method == 'POST':
-        photo_form = PhotoForm(request.POST)
+        photo_form = PhotoForm(request.POST, request.FILES)
         photo_context_form = PhotoContextForm(request.POST)
         if photo_form.is_valid() and photo_context_form.is_valid():
-            photo_context = photo_context_form.save()
-            photo = photo_form.save(commit=False)
-            photo.photo_context = photo_context
-            photo.user = request.user
-            photo.save()
-            return redirect('detail', photo_id=photo.id)
+            photo_file = request.FILES.get('photo_file')
+            if photo_file:
+                s3 = boto3.client('s3')
+                key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+
+                try:
+                    s3.upload_fileobj(photo_file, BUCKET, key)
+                    url = f"{S3_BASE_URL}{BUCKET}/{key}"
+                    photo_context = photo_context_form.save()
+                    photo = photo_form.save(commit=False)
+                    photo.url = url
+                    photo.photo_context = photo_context
+                    photo.user = request.user
+                    photo.save()
+                except Exception as error:
+                    print('something went wrong uploading to s3')
+                    print(error)
+                    return HttpResponse("An error occured while uploading to S3")
+                return redirect('detail', photo_id=photo.id)
+            else:
+                return HttpResponse("No photo file was provided")
         else:
-            photo_form = PhotoForm()
-            photo_context_form = PhotoContextForm()
-            return render(request, 'main_app/photo_form.html', {'photo_form': photo_form, 'photo_context_form': photo_context_form})
+            return HttpResponse("The form is invalid")
     else:
         photo_form = PhotoForm()
         photo_context_form = PhotoContextForm()

@@ -24,6 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
+AWS_ACCESS_KEY_ID = os.getenv('aws_access_key_id')
+AWS_SECRET_ACCESS_KEY = os.getenv('aws_secret_access_key')
+AWS_STORAGE_BUCKET_NAME = 'chronocollage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

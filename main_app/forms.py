@@ -10,7 +10,7 @@ class PhotoContextForm(forms.ModelForm):
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['title', 'url']
+        fields = ['title']
 
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=True)
